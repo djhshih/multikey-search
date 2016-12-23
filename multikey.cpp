@@ -27,19 +27,16 @@ Rcpp::IntegerVector match_rows(Rcpp::IntegerMatrix x, Rcpp::IntegerMatrix y) {
 	size_t nx = x.nrow();
 	size_t d = x.ncol();
 
-	vector< slice<int32_t> > vx;
-	vector< slice<int32_t> > vy;
+	key_vector<int32_t> vx(d);
+	key_vector<int32_t> vy(d);
 	vector<size_t> idx(nx);
 
-	vx.reserve(d);
-	vy.reserve(d);
-
 	for (size_t j = 0; j < d; ++j) {
-		vx.push_back( slice<int32_t>(x.column(j).begin(), x.column(j).end()) );
-		vy.push_back( slice<int32_t>(y.column(j).begin(), y.column(j).end()) );
+		vx.add_slice( slice<int32_t>(x.column(j).begin(), x.column(j).end()) );
+		vy.add_slice( slice<int32_t>(y.column(j).begin(), y.column(j).end()) );
 	}
 
-	match_slices(vx, vy, idx);
+	match_keys(vx, vy, idx);
 
 	return Rcpp::wrap(idx);
 }
