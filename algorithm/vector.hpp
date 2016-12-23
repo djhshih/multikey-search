@@ -7,12 +7,6 @@
 namespace vec {
 
     using namespace std;
-
-    // Returns an index of sorted vector ys that matches x, or if none exists, ys.size().
-    template <typename T>
-    size_t binary_search(const vector<T>& ys, const T& x) {
-        binary_search(ys, x, 0, ys.size());
-    }
     
     template <typename T>
     size_t binary_search(const vector<T>& ys, const T& x, size_t l, size_t r) {
@@ -33,12 +27,12 @@ namespace vec {
         return ys.size();
     }
 
-    // Returns the first index of sorted vector ys that matches x, or if none exists, where x should be inserted.
+    // Returns an index of sorted vector ys that matches x, or if none exists, ys.size().
     template <typename T>
-    size_t lower_bound(const vector<T>& ys, const T& x) {
-        lower_bound(ys, x, 0, ys.size());
+    size_t binary_search(const vector<T>& ys, const T& x) {
+        return binary_search(ys, x, 0, ys.size());
     }
-    
+
     template <typename T>
     size_t lower_bound(const vector<T>& ys, const T& x, size_t l, size_t r) {
         while (l < r) {
@@ -55,12 +49,12 @@ namespace vec {
         return l;
     }
 
-    // Returns one past the last index of sorted vector ys that matches x, or if none exists, where x should be inserted.
-    template <class T>
-    size_t upper_bound(const vector<T>& ys, const T& x) {
-        upper_bound(ys, x, 0, ys.size());
+    // Returns the first index of sorted vector ys that matches x, or if none exists, where x should be inserted.
+    template <typename T>
+    size_t lower_bound(const vector<T>& ys, const T& x) {
+        return lower_bound(ys, x, 0, ys.size());
     }
-    
+
     template <class T>
     size_t upper_bound(const vector<T>& ys, const T& x, size_t l, size_t r) {
         while (l < r) {
@@ -77,16 +71,22 @@ namespace vec {
         return l;
     }
 
-    // Returns the bounds of the range [lower, upper) of sorted vector ys with values equivalent to x.
+    // Returns one past the last index of sorted vector ys that matches x, or if none exists, where x should be inserted.
     template <class T>
-    void equal_range(const vector<T>& ys, const T& x, size_t& lower, size_t& upper) {
-        equal_range(ys, x, lower, upper, 0, ys.size());
+    size_t upper_bound(const vector<T>& ys, const T& x) {
+        return upper_bound(ys, x, 0, ys.size());
     }
-    
+
     template <class T>
     void equal_range(const vector<T>& ys, const T& x, size_t& lower, size_t& upper, size_t l, size_t r) {
         lower = lower_bound(ys, x, l, r);
         upper = upper_bound(ys, x, l, r);
+		}
+
+    // Returns the bounds of the range [lower, upper) of sorted vector ys with values equivalent to x.
+    template <class T>
+    void equal_range(const vector<T>& ys, const T& x, size_t& lower, size_t& upper) {
+        return equal_range(ys, x, lower, upper, 0, ys.size());
     }
     
 }
