@@ -1,22 +1,25 @@
 #ifndef _match_cpp_
 #define _match_cpp_
 
-#include "key_vector.hpp"
+#include "mkey_vector.hpp"
 
 namespace alg {
 
 /**
- * Find index to slices in y that match each slice of x.
- * y must be sorted
+ * Find index to multikeys in y that match each multikey of x.
+ *
+ * @param x    query multikey vector
+ * @param y    sorted reference multikey vector
+ * @param idx  output vector of index values
  */
 template <typename T>
-void match_keys(
-	const key_vector<T>& x,
-	const key_vector<T>& y,
+void match_mkeys(
+	const mkey_vector<T>& x,
+	const mkey_vector<T>& y,
 	vector<size_t>& idx
 ) {
 
-	// number of dimensions in key
+	// number of dimensions of the multikey
 	size_t d = x.ndim();
 	
 	if (y.ndim() != d) {
@@ -28,16 +31,18 @@ void match_keys(
 
 	idx.resize(nx);
 	
-	// iterate through the multi-value elements of x
+	// iterate through the multikeys of x
 	for (size_t i = 0; i < nx; ++i) {
-		// each component of the multi-value key stricts the feasible range [lower, upper) of ys containing elements that possibly match x
-		// if the search completes successfully after the last component, lower points to a possible match
+		// each component of the multikey stricts the feasible range [lower,
+		// upper) of ys containing elements that possibly match x if the search
+		// completes successfully after the last component, lower points to a
+		// possible match
 		T t = x[0][i];
 		size_t lower = lower_bound(y[0], t);
 		size_t upper = upper_bound(y[0], t);
 		bool match = TRUE;
 		if (y[0][lower] != t) {
-			// component of key does not match
+			// component of multikey does not match
 			match = FALSE;	
 		} else {
 			for (size_t j = 1; j < d; ++j) {
@@ -45,7 +50,7 @@ void match_keys(
 				lower = lower_bound(y[j], t, lower, upper);
 				upper = upper_bound(y[j], t, lower, upper);
 				if (y[j][lower] != t) {
-					// component of key does not match
+					// component of multikey does not match
 					match = FALSE;
 					break;
 				}
@@ -55,7 +60,7 @@ void match_keys(
 		if (match) {
 			idx[i] = lower;
 		} else {
-			// indicates no match in y for the i-th multi-value element of x
+			// indicates no match in y for the i-th multikey of x
 			idx[i] = ny;
 		}
 	}

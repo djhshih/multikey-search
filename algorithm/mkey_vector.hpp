@@ -6,32 +6,36 @@
 namespace alg {
 
 /**
- * Vector of multi-value keys.
+ * Vector of multikeys
  *
- * A key_vector instance is populated by successive calls to add_slice(x)
- * where x is a slice of values for the next dimension of the multi-value key.
+ * A mkey_vector instance is populated by successive calls to add_slice(x)
+ * where x is a slice of values for the next dimension of the multikey.
+ * Therefore, all multikeys must be available at construction.
  *
- * Each dimension of the multi-value key must have the same type.
+ * Each dimension of the multikey must have the same type.
  * (There is no dynamic heterogeneous container in C++03 STL.)
+ *
+ * The values of associated with each multikey is implied by their positions
+ * in the vector.
  */
 template <typename T>
-class key_vector {
+class mkey_vector {
 
 	private:
 
-		// The i-th key is represented by tuple (_rep[0][i], ..., _rep[d-1][i])
-		// where d is the dimension of the keys
+		// The i-th multikey is represented by tuple (_rep[0][i], ..., _rep[d-1][i])
+		// where d is the dimension of the multikey
 		vector< slice<T> > _rep;
 
-		// number of dimensions of the keys
+		// number of dimensions of the multikey
 		const size_t _d;
 
-		// number of keys
+		// number of multikeys
 		size_t _n;
 
 	public:
 
-		key_vector(size_t key_size)
+		mkey_vector(size_t key_size)
 			: _d(key_size) {
 			if (key_size == 0) {
 				throw invalid_argument("Key dimension must be positive.");
@@ -54,7 +58,7 @@ class key_vector {
 			_rep.push_back(x);
 		}
 
-		// number of dimensions of the keys
+		// number of dimensions of the multikey
 		size_t ndim() const {
 			return _d;
 		}
@@ -63,7 +67,7 @@ class key_vector {
 			return _rep[i];
 		}
 
-		// number of keys
+		// number of multikeys
 		size_t nkeys() const {
 			return _n;
 		}

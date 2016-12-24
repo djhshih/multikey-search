@@ -27,8 +27,8 @@ Rcpp::IntegerVector match_rows(Rcpp::IntegerMatrix x, Rcpp::IntegerMatrix y) {
 	size_t nx = x.nrow();
 	size_t d = x.ncol();
 
-	key_vector<int32_t> vx(d);
-	key_vector<int32_t> vy(d);
+	mkey_vector<int32_t> vx(d);
+	mkey_vector<int32_t> vy(d);
 	vector<size_t> idx(nx);
 
 	for (size_t j = 0; j < d; ++j) {
@@ -36,7 +36,7 @@ Rcpp::IntegerVector match_rows(Rcpp::IntegerMatrix x, Rcpp::IntegerMatrix y) {
 		vy.add_slice( slice<int32_t>(y.column(j).begin(), y.column(j).end()) );
 	}
 
-	match_keys(vx, vy, idx);
+	match_mkeys(vx, vy, idx);
 
 	return Rcpp::wrap(idx);
 }

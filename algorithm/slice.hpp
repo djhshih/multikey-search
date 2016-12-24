@@ -5,11 +5,12 @@
 namespace alg {
 
 /**
- * A slice is a descriptor of a vector segment.
+ * Vector slice
  *
- * It stores the pointer to range [begin, end) of a source vector, and it does
- * not allocate or deallocate memory. If values of the source vector changes,
- * so too will a slice that describes the vector.
+ * A slice is a descriptor of a vector segment. It stores the pointer to range
+ * [begin, end) of a source vector, and it does not allocate or deallocate
+ * memory. If values of the source vector changes, so too will a slice that
+ * describes the vector.
  *
  * This slice class is similar to Go's slice type, and it is different from
  * the slice class (valarray slice selector) in C++ STL.
@@ -64,7 +65,8 @@ size_t binary_search(const slice<T>& ys, const T& x, size_t l, size_t r) {
 		return ys.size();
 }
 
-// Returns an index of sorted slice ys that matches x, or if none exists, ys.size().
+// Returns an index of sorted slice ys that matches x, or if none exists,
+// ys.size().
 template <typename T>
 size_t binary_search(const slice<T>& ys, const T& x) {
 		return binary_search(ys, x, 0, ys.size());
@@ -86,7 +88,8 @@ size_t lower_bound(const slice<T>& ys, const T& x, size_t l, size_t r) {
 		return l;
 }
 
-// Returns the first index of sorted slice ys that matches x, or if none exists, where x should be inserted.
+// Returns the first index of sorted slice ys that matches x, or if none
+// exists, where x should be inserted.
 template <typename T>
 size_t lower_bound(const slice<T>& ys, const T& x) {
 		return lower_bound(ys, x, 0, ys.size());
@@ -108,19 +111,24 @@ size_t upper_bound(const slice<T>& ys, const T& x, size_t l, size_t r) {
 		return l;
 }
 
-// Returns one past the last index of sorted slice ys that matches x, or if none exists, where x should be inserted.
+// Returns one past the last index of sorted slice ys that matches x, or if
+// none exists, where x should be inserted.
 template <class T>
 size_t upper_bound(const slice<T>& ys, const T& x) {
 		return upper_bound(ys, x, 0, ys.size());
 }
 
 template <class T>
-void equal_range(const slice<T>& ys, const T& x, size_t& lower, size_t& upper, size_t l, size_t r) {
-		lower = lower_bound(ys, x, l, r);
-		upper = upper_bound(ys, x, l, r);
+void equal_range(
+	const slice<T>& ys, const T& x, 
+	size_t& lower, size_t& upper, size_t l, size_t r
+) {
+	lower = lower_bound(ys, x, l, r);
+	upper = upper_bound(ys, x, l, r);
 }
 
-// Returns the bounds of the range [lower, upper) of sorted slice ys with values equivalent to x.
+// Returns the bounds of the range [lower, upper) of sorted slice ys with
+// values equivalent to x.
 template <class T>
 void equal_range(const slice<T>& ys, const T& x, size_t& lower, size_t& upper) {
 		return equal_range(ys, x, lower, upper, 0, ys.size());
