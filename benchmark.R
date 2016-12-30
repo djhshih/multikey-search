@@ -20,18 +20,20 @@ x <- y[sample(1:nrow(y), nx), ];
 idx.mkey <- match_coords(x, y);
 idx.hash <- match_coords_hash(x, y);
 idx.tree <- match_coords_tree(x, y);
-idx.svector <- match_coords_svector(x, y);
+#idx.svector <- match_coords_svector(x, y);
 
 stopifnot(idx.mkey == idx.hash);
 stopifnot(idx.mkey == idx.tree);
-stopifnot(idx.mkey == idx.svector);
+#stopifnot(idx.mkey == idx.svector);
 
-microbenchmark(
+results <- microbenchmark(
 	match_coords(x, y),
 	match_coords_hash(x, y),
-	match_coords_tree(x, y),
-	match_coords_svector(x, y)
-)
+	match_coords_tree(x, y)
+	#match_coords_svector(x, y)
+);
+
+print(results)
 
 # Unit: milliseconds
 #                        expr         min         lq       mean     median         uq        max neval
