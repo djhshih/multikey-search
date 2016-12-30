@@ -69,7 +69,8 @@ match_coords <- function(x, y) {
 		stop("x and y must have the same coordinate dimensions");
 	}
 
-	y.order <- order_rows(y);
+	# get row index of row-sorted y matrix
+	y.order <- order(y[, 1], y[, 2]);
 
 	# find row index of row-sorted y for each row of x
 	idx <- match_rows(x, y[y.order, ]);
