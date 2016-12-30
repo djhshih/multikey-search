@@ -15,7 +15,7 @@ namespace alg {
  * This slice class is similar to Go's slice type, and it is different from
  * the slice class (valarray slice selector) in C++ STL.
  */
-template <typename T>
+template <typename T, typename index_t = size_t>
 class slice {
 
 	public:
@@ -25,11 +25,16 @@ class slice {
 	private:
 
 		iterator _begin, _end;
+		index_t _index;
 
 	public:
 
 		slice(iterator begin, iterator end)
-			: _begin(begin), _end(end) {
+			: _begin(begin), _end(end), _index(0) {
+		}
+
+		slice(iterator begin, iterator end, index_t index)
+			: _begin(begin), _end(end), _index(index) {
 		}
 
 		T& operator[](size_t i) {
@@ -44,6 +49,34 @@ class slice {
 			return _end - _begin;
 		}
 
+		const index_t index() const {
+			return _index;
+		}
+
+};
+
+// functor for comparing slice objects
+template <typename T>
+struct slice_less {
+	bool operator()(const slice<T>& xs, const slice<T>& ys) {
+		size_t nx = xs.size();
+		size_t ny = ys.size();
+
+		size_t n = nx;
+		if (ny < n) n = ny;
+
+		for (size_t i = 0; i < n; ++i) {
+			if (xs[i] < ys[i]) return true;
+			if (xs[i] > ys[i]) return false;
+			// otherwise, the i-th elements are equal
+			// proceed to compare the next element
+		}
+
+		// thus, all first n elements are equal
+		// the shorter slice is considered less
+		if (nx < ny) return true;
+		return false;
+	}
 };
 
 template <typename T>

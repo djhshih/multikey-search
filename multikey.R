@@ -21,6 +21,37 @@ as_integer_matrix <- function(x) {
 	x
 }
 
+# Convert from C++ index to R index
+# @param idx  0-based index
+# @param n    max index value (e.g. vector size)
+convert_idx <- function(idx, n) {
+	# convert 0-based to 1-based
+	idx <- idx + 1
+
+	# recode missing matches
+	idx[idx > n] <- NA;
+
+	idx
+}
+
+#' Return the column index of the column-sorted matrix
+#'
+#' @param x integer matrix
+#' @return integer vector
+order_cols <- function(x) {
+	idx <- order_cols_(x);
+	convert_idx(idx, ncol(x))
+}
+
+#' Return the row index of the row-sorted matrix
+#'
+#' @param x integer matrix
+#' @return integer vector
+order_rows <- function(x) {
+	idx <- order_cols_(t(x));
+	convert_idx(idx, nrow(x))
+}
+
 #' Match coordinates.
 #'
 #' @param x  integer matrix
@@ -38,46 +69,32 @@ match_coords <- function(x, y) {
 		stop("x and y must have the same coordinate dimensions");
 	}
 
-	y.order <- order(y[, 1], y[, 2]);
+	y.order <- order_rows(y);
 
 	# find row index of row-sorted y for each row of x
 	idx <- match_rows(x, y[y.order, ]);
 
-	# convert 0-based to 1-based
-	idx <- idx + 1
-
-	# recode missing matches
-	idx[idx > nrow(y)] <- NA;
+	idx <- convert_idx(idx, nrow(y));
 
 	# return row index for the unsorted y
 	y.order[idx]
 }
 
 
-x <- data.frame(
-	chrom = c(4, 3, 2),
-	pos = c(1000, 2000, 1000)
-);
+sourceCpp("container.cpp");
 
-y <- data.frame(
-	chrom = c(1, 2, 3, 4),
-	pos = c(1000, 1000, 2000, 2000)
-);
+match_coords_hash <- function(x, y) {
+	idx <- match_coords_hash_(x$chrom, x$pos, y$chrom, y$pos);
+	convert_idx(idx, nrow(y))
+}
 
-truth <- c(NA, 3, 2);
+match_coords_tree <- function(x, y) {
+	idx <- match_coords_tree_(x$chrom, x$pos, y$chrom, y$pos);
+	convert_idx(idx, nrow(y))
+}
 
-y2 <- y[c(4, 1, 2, 3), ]
-
-truth2 <- c(NA, 4, 3);
-
-
-idx <- match_coords(x, y);
-stopifnot(test_equal(idx, truth));
-
-cbind(x, y[idx, ])
-
-idx2 <- match_coords(x, y2);
-stopifnot(test_equal(idx2, truth2));
-
-cbind(x, y2[idx2, ])
+match_coords_svector <- function(x, y) {
+	idx <- match_coords_svector_(x$chrom, x$pos, y$chrom, y$pos);
+	convert_idx(idx, nrow(y))
+}
 
