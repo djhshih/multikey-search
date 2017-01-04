@@ -8,6 +8,7 @@ sourceCpp("order.cpp");
 #'
 #' @param x matrix
 #' @return integer vector
+#' @export
 order_cols <- function(x) {
 	if (is.integer(x)) {
 		order_cols_r(x)
@@ -20,6 +21,7 @@ order_cols <- function(x) {
 #'
 #' @param x matrix
 #' @return integer vector
+#' @export
 order_rows <- function(x) {
 	if (is.integer(x)) {
 		order_rows_r(x)
