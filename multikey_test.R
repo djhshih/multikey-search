@@ -50,3 +50,22 @@ stopifnot(test_equal(idx, truth));
 idx2 <- match_coords_svector(x, y2);
 stopifnot(test_equal(idx2, truth2));
 
+
+
+x3 <- data.frame(
+	chrom = c(4, 3, 2),
+	pos = c(1000, 2000, 1000),
+	alt = c("A", "G", "G")
+);
+
+y3 <- data.frame(
+	chrom = c(1, 2, 3, 4),
+	pos = c(1000, 1000, 2000, 1000),
+	alt = c("C", "G", "T", "A")
+);
+
+truth3 <- c(4, NA, 2);
+
+idx3 <- match_snvs(x3, y3);
+stopifnot(test_equal(idx3, truth3));
+

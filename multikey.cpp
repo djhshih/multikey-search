@@ -17,24 +17,34 @@ using namespace alg;
 //' @param x  query integer matrix
 //' @param y  reference row-sorted integer matrix
 //' @return row index into y for each row fo x
-// [[Rcpp::export]]
-Rcpp::IntegerVector match_slices_(Rcpp::IntegerMatrix x, Rcpp::IntegerMatrix y) {
+template<class Matrix, typename T>
+Rcpp::IntegerVector match_slices_(Matrix x, Matrix y) {
 	size_t nx = x.nrow();
 	size_t d = x.ncol();
 
-	mkey_vector<int32_t> vx(d);
-	mkey_vector<int32_t> vy(d);
+	mkey_vector<T> vx(d);
+	mkey_vector<T> vy(d);
 	vector<size_t> idx(nx);
 
 	vx.reserve(d);
 	vy.reserve(d);
 	for (size_t j = 0; j < d; ++j) {
-		vx.add_slice( slice<int32_t>(x.column(j).begin(), x.column(j).end()) );
-		vy.add_slice( slice<int32_t>(y.column(j).begin(), y.column(j).end()) );
+		vx.add_slice( slice<T>(x.column(j).begin(), x.column(j).end()) );
+		vy.add_slice( slice<T>(y.column(j).begin(), y.column(j).end()) );
 	}
 
 	match_mkeys(vx, vy, idx);
 
 	return Rcpp::wrap(idx);
+}
+
+// [[Rcpp::export]]
+Rcpp::IntegerVector match_slices_int_(Rcpp::IntegerMatrix x, Rcpp::IntegerMatrix y) {
+	return match_slices_<Rcpp::IntegerMatrix, int32_t>(x, y);
+}
+
+// [[Rcpp::export]]
+Rcpp::IntegerVector match_slices_double_(Rcpp::NumericMatrix x, Rcpp::NumericMatrix y) {
+	return match_slices_<Rcpp::NumericMatrix, double>(x, y);
 }
 
