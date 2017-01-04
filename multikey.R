@@ -63,15 +63,13 @@ match_rows <- function(x, y) {
 		stop("x and y must have the same number of columns");
 	}
 
+	# get row index of row-sorted y matrix
+	y.order <- order_rows(y);
+
+	# find row index of row-sorted y for each row of x
 	if (is.integer(x) && is.integer(y)) {
-		# get row index of row-sorted y matrix
-		y.order <- order_rows_r(y);
-		# find row index of row-sorted y for each row of x
 		idx <- match_slices_int_(x, y[y.order, ]);
 	} else {
-		# get row index of row-sorted y matrix
-		y.order <- order_rows(y);
-		# find row index of row-sorted y for each row of x
 		idx <- match_slices_double_(x, y[y.order, ]);
 	}
 

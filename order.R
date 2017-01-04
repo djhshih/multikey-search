@@ -10,6 +10,28 @@ sourceCpp("order.cpp");
 #' @return integer vector
 order_cols <- function(x) {
 	if (is.integer(x)) {
+		order_cols_r(x)
+	} else {
+		convert_idx(order_slices_double_(x), ncol(x))
+	}
+}
+
+#' Return the row index of the row-sorted matrix
+#'
+#' @param x matrix
+#' @return integer vector
+order_rows <- function(x) {
+	if (is.integer(x)) {
+		order_rows_r(x)
+	} else {
+		convert_idx(order_slices_double_(t(x)), nrow(x))
+	}
+}
+
+#' Return the column index of the column-sorted matrix
+#' Wrapper for C++ function, used for benchmarking
+order_cols_cpp <- function(x) {
+	if (is.integer(x)) {
 		idx <- order_slices_int_(x);
 	} else {
 		idx <- order_slices_double_(x);
@@ -18,10 +40,8 @@ order_cols <- function(x) {
 }
 
 #' Return the row index of the row-sorted matrix
-#'
-#' @param x matrix
-#' @return integer vector
-order_rows <- function(x) {
+#' Wrapper for C++ function, used for benchmarking
+order_rows_cpp <- function(x) {
 	if (is.integer(x)) {
 		idx <- order_slices_int_(t(x));
 	} else {

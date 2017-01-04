@@ -22,8 +22,8 @@ yt <- t(y);
 
 microbenchmark(
 	order_slices_int_(yt),
-	order_rows(y),
-	order_cols(yt),
+	order_rows_cpp(y),
+	order_cols_cpp(yt),
 	order_cols_copy_(yt),
 	order_cols_copy_boost_(yt),
 	order_rows_r(y),
@@ -44,8 +44,8 @@ yft <- t(yf);
 
 microbenchmark(
 	order_slices_double_(yft),
-	order_rows(yf),
-	order_cols(yft),
+	order_rows_cpp(yf),
+	order_cols_cpp(yft),
 	order_cols_copy_(yft),
 	order_cols_copy_boost_(yft),
 	order_rows_r(yf),

@@ -4,7 +4,7 @@ source("util.R");
 source("multikey.R");
 source("multikey_container.R");
 
-ny <- 1e4;
+ny <- 1e5;
 nx <- 1e3;
 
 chroms <- 1:24;
