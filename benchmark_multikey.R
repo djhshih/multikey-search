@@ -1,9 +1,11 @@
 library(microbenchmark);
 
+source("util.R");
 source("multikey.R");
+source("multikey_container.R");
 
-
-ny <- 1e5;
+ny <- 1e4;
+nx <- 1e3;
 
 chroms <- 1:24;
 pos <- 1:1e6;
@@ -12,8 +14,6 @@ y <- data.frame(
 	chrom = sample(chroms, ny, replace=TRUE),
 	pos = sample(pos, ny, replace=TRUE)
 );
-
-nx <- 1e3;
 
 x <- y[sample(1:nrow(y), nx), ]; 
 

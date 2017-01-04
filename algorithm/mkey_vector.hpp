@@ -43,6 +43,10 @@ class mkey_vector {
 			_rep.reserve(_d);
 		}
 
+		void reserve(size_t i) {
+			_rep.reserve(i);
+		}
+
 		// populate the next key dimension
 		void add_slice(const slice<T>& x) {
 			if (_rep.size() == _d) {

@@ -55,29 +55,26 @@ class slice {
 
 };
 
-// functor for comparing slice objects
 template <typename T>
-struct slice_less {
-	bool operator()(const slice<T>& xs, const slice<T>& ys) {
-		size_t nx = xs.size();
-		size_t ny = ys.size();
+bool operator<(const slice<T>& xs, const slice<T>& ys) {
+	size_t nx = xs.size();
+	size_t ny = ys.size();
 
-		size_t n = nx;
-		if (ny < n) n = ny;
+	size_t n = nx;
+	if (ny < n) n = ny;
 
-		for (size_t i = 0; i < n; ++i) {
-			if (xs[i] < ys[i]) return true;
-			if (xs[i] > ys[i]) return false;
-			// otherwise, the i-th elements are equal
-			// proceed to compare the next element
-		}
-
-		// thus, all first n elements are equal
-		// the shorter slice is considered less
-		if (nx < ny) return true;
-		return false;
+	for (size_t i = 0; i < n; ++i) {
+		if (xs[i] < ys[i]) return true;
+		if (xs[i] > ys[i]) return false;
+		// otherwise, the i-th elements are equal
+		// proceed to compare the next element
 	}
-};
+
+	// thus, all first n elements are equal
+	// the shorter slice is considered less
+	if (nx < ny) return true;
+	return false;
+}
 
 template <typename T>
 size_t binary_search(const slice<T>& ys, const T& x, size_t l, size_t r) {

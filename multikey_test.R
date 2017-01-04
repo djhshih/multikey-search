@@ -1,4 +1,6 @@
+source("util.R");
 source("multikey.R");
+source("multikey_container.R");
 
 x <- data.frame(
 	chrom = c(4, 3, 2),
@@ -47,21 +49,4 @@ stopifnot(test_equal(idx, truth));
 
 idx2 <- match_coords_svector(x, y2);
 stopifnot(test_equal(idx2, truth2));
-
-
-n <- 5;
-m <- 4;
-z <- matrix(sample(1:n, replace=TRUE, n*m), n, m);
-
-idx3 <- order_cols(z);
-truth3 <- order(z[1, ], z[2, ], z[3, ], z[4, ], z[5, ]);
-stopifnot(test_equal(idx3, truth3));
-
-z[, idx3];
-
-idx4 <- order_rows(z);
-truth4 <- order(z[, 1], z[, 2], z[, 3], z[, 4])
-stopifnot(test_equal(idx4, truth4));
-
-z[idx4, ];
 
