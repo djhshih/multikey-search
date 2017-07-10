@@ -39,21 +39,21 @@ void match_mkeys(
 		// possible match
 		T t = x[0][i];
 		size_t lower = lower_bound(y[0], t);
-		size_t upper = upper_bound(y[0], t);
 		bool match = TRUE;
-		if (y[0][lower] != t) {
+		if (lower == ny || y[0][lower] != t) {
 			// component of multikey does not match
 			match = FALSE;	
 		} else {
+			size_t upper = upper_bound(y[0], t);
 			for (size_t j = 1; j < d; ++j) {
 				t = x[j][i];
 				lower = lower_bound(y[j], t, lower, upper);
-				upper = upper_bound(y[j], t, lower, upper);
-				if (y[j][lower] != t) {
+				if (lower == upper || y[j][lower] != t) {
 					// component of multikey does not match
 					match = FALSE;
 					break;
 				}
+				upper = upper_bound(y[j], t, lower, upper);
 			}
 		}
 	
