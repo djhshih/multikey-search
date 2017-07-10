@@ -1,5 +1,6 @@
 // Make the boost headers available
 // [[Rcpp::depends(BH)]]
+// [[Rcpp::plugins(cpp11)]]
 
 #include <Rcpp.h>
 using namespace Rcpp;

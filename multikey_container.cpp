@@ -1,5 +1,6 @@
 // Make the boost headers available
 // [[Rcpp::depends(BH)]]
+// [[Rcpp::plugins(cpp11)]]
 
 #include <Rcpp.h>
 using namespace Rcpp;
@@ -10,6 +11,7 @@ using namespace std;
 #include <boost/unordered_map.hpp>  // hash table
 #include <boost/container/map.hpp>  // red-black tree
 #include <boost/container/flat_map.hpp>  // sorted vector
+
 
 struct coord {
 	uint8_t chrom;

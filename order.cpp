@@ -1,3 +1,5 @@
+// [[Rcpp::plugins(cpp11)]]
+
 #include <Rcpp.h>
 using namespace Rcpp;
 
@@ -8,6 +10,7 @@ using namespace std;
 
 #include "algorithm/slice.hpp"
 using namespace alg;
+
 
 template<class Matrix, typename T> 
 Rcpp::IntegerVector order_slices_(Matrix x) {

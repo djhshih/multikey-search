@@ -1,3 +1,5 @@
+// [[Rcpp::plugins(cpp11)]]
+
 #include <Rcpp.h>
 using namespace Rcpp;
 
@@ -8,6 +10,7 @@ using namespace std;
 #include "algorithm/match.hpp"
 #include "algorithm/key_value.hpp"
 using namespace alg;
+
 
 //' Determine the row index into row-sorted y for each row of x.
 //' 
